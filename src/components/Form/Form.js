@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import "./Form.sass";
 
 const Form = () => {
   const [travelerInfo, setTravelerInfo] = useState({
@@ -20,7 +21,8 @@ const Form = () => {
     console.log(travelerInfo);
   };
 
-  const [openCalendar, setOpenCalendar] = useState(false);
+  const [openInbound, setOpenInbound] = useState(false);
+  const [openOutbound, setOpenOutbound] = useState(false);
 
   return (
     <form className="ui form" onSubmit={onSubmitButton}>
@@ -63,16 +65,23 @@ const Form = () => {
               placeholder="Departure date"
               value={travelerInfo.inboundDate}
               readOnly
+              onClick={() => {
+                setOpenInbound(!openInbound);
+              }}
             />
-            <Calendar
-              onChange={(value) =>
-                setTravelerInfo({
-                  ...travelerInfo,
-                  inboundDate: value.toLocaleDateString(),
-                })
-              }
-              value={new Date()}
-            />
+            {openInbound && (
+              <Calendar
+                onChange={(value) => {
+                  setTravelerInfo({
+                    ...travelerInfo,
+                    inboundDate: value.toLocaleDateString(),
+                  });
+                  setOpenInbound(!openInbound);
+                }}
+                value={new Date()}
+                className="form__calendar"
+              />
+            )}
           </div>
           <div className="field">
             <input
@@ -81,16 +90,23 @@ const Form = () => {
               placeholder="Arrival date"
               value={travelerInfo.outboundDate}
               readOnly
+              onClick={() => {
+                setOpenOutbound(!openOutbound);
+              }}
             />
-            <Calendar
-              onChange={(value) =>
-                setTravelerInfo({
-                  ...travelerInfo,
-                  outboundDate: value.toLocaleDateString(),
-                })
-              }
-              value={new Date()}
-            />
+            {openOutbound && (
+              <Calendar
+                onChange={(value) => {
+                  setTravelerInfo({
+                    ...travelerInfo,
+                    outboundDate: value.toLocaleDateString(),
+                  });
+                  setOpenOutbound(!openOutbound);
+                }}
+                value={new Date()}
+                className="form__calendar"
+              />
+            )}
           </div>
         </div>
 
